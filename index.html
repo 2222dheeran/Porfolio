@@ -1,137 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K Dheeran's Portfolio</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-    }
-    .typing-container::after {
-      content: '|';
-      animation: blink 0.7s infinite;
-    }
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
-    }
-    /* Profile Picture */
-    .profile-pic {
-      z-index: 50;
-      transition: transform 0.5s ease-in-out;
-      cursor: pointer;
-    }
-    .profile-pic.zoomed {
-      transform: scale(3);
-      z-index: 100;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K Dheeran's Portfolio</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary-color: #6D28D9;
+            --secondary-color: #F87171;
+            --accent-color: #3B82F6;
+            --bg-color: #111827;
+            --text-color: #F3F4F6;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        body::-webkit-scrollbar {
+            width: 12px;
+        }
+        body::-webkit-scrollbar-track {
+            background: #1F2937;
+        }
+        body::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 20px;
+            border: 3px solid #1F2937;
+        }
+
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+        }
+        .fade-in {
+            animation: fadeInSlideUp 0.8s ease-out forwards;
+        }
+
+        .typing-container span {
+            border-right: 2px solid;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 2.5s steps(30, end), blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: white }
+        }
+
+        .skill-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .skill-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+        }
+
+        /* Profile zoom styles */
+        .profile-pic {
+            transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+            cursor: pointer;
+            z-index: 60;
+            transform-origin: top left; /* zooms from top-left */
+        }
+        .profile-pic.zoomed {
+            transform: scale(2.5); /* zooms in place */
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-900 text-gray-100 font-poppins">
 
-  <!-- Navbar -->
-  <nav class="fixed w-full bg-gray-900 text-white shadow-lg z-50">
-    <div class="container mx-auto flex justify-between items-center p-4">
-      <h1 class="text-2xl font-bold">K Dheeran</h1>
-      <ul class="flex space-x-6">
-        <li><a href="#home" class="hover:text-purple-400 transition">Home</a></li>
-        <li><a href="#about" class="hover:text-purple-400 transition">About</a></li>
-        <li><a href="#projects" class="hover:text-purple-400 transition">Projects</a></li>
-        <li><a href="#contact" class="hover:text-purple-400 transition">Contact</a></li>
-      </ul>
-    </div>
-  </nav>
+    <!-- Header and Navigation -->
+    <header class="bg-gray-800 bg-opacity-70 backdrop-blur-md fixed top-0 w-full z-40 shadow-lg">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center relative">
+            <div class="flex flex-col items-start">
+                <a href="#" class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 font-indie-flower">
+                    K Dheeran
+                </a>
+                <!-- Profile Picture (placed under name) -->
+                <img src="Passport Size Photo.jpg" alt="Profile Picture"
+                    id="profile-pic"
+                    class="profile-pic w-16 h-16 rounded-full mt-2 border-2 border-purple-500 shadow-lg object-cover">
+            </div>
+            <ul class="flex items-center space-x-8">
+                <li><a href="#about" class="text-lg hover:text-purple-400 transition-colors duration-300">About</a></li>
+                <li><a href="#education" class="text-lg hover:text-purple-400 transition-colors duration-300">Education</a></li>
+                <li><a href="#skills" class="text-lg hover:text-purple-400 transition-colors duration-300">Skills</a></li>
+                <li><a href="#contact" class="text-lg hover:text-purple-400 transition-colors duration-300">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <!-- Profile Picture -->
-  <img src="Passport Size Photo.jpg" alt="Profile Picture"
-       id="profile-pic"
-       class="profile-pic w-16 h-16 rounded-full absolute top-16 left-6 border-2 border-purple-500 shadow-lg object-cover">
+    <!-- Hero Section -->
+    <main>
+        <section id="home" class="h-screen flex flex-col justify-center items-center text-center p-6 bg-gray-900 relative">
+            <div class="relative z-10">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-4 text-white typing-container">
+                    Hello, I'm <span class="text-purple-400 font-indie-flower">K Dheeran</span>
+                </h1>
+                <p id="typed-text" class="text-xl md:text-2xl lg:text-3xl font-light text-gray-300"></p>
+            </div>
+        </section>
 
-  <!-- Hero Section -->
-  <section id="home" class="h-screen flex flex-col justify-center items-center text-center p-6 bg-gray-900 relative">
-    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1950&q=80')] bg-cover bg-center"></div>
-    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-    <div class="relative z-10">
-      <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-4 text-white typing-container">
-        Hello, I'm <span class="text-purple-400 font-indie-flower">K Dheeran</span>
-      </h1>
-      <p id="typed-text" class="text-xl md:text-2xl lg:text-3xl font-light text-gray-300"></p>
-    </div>
-  </section>
+        <!-- About Me Section -->
+        <section id="about" class="py-20 px-6 animate-on-scroll">
+            <div class="container mx-auto max-w-5xl flex flex-col lg:flex-row items-center space-y-10 lg:space-y-0 lg:space-x-16">
+                <div class="lg:w-1/2 text-center lg:text-left">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-red-500">About Me</h2>
+                    <p id="about-me-text" class="text-lg md:text-xl leading-relaxed text-gray-300">
+                        "I'm a builder at heart, always looking for a new challenge, whether it's putting together a complex project
+                         or figuring out how things work. I love to learn and am constantly seeking out new skills to master. 
+                         When I'm not creating, I enjoy unwinding by playing a variety of video games, both on and offline."
+                    </p>
+                </div>
+            </div>
+        </section>
 
-  <!-- About Section -->
-  <section id="about" class="py-20 bg-white text-center">
-    <h2 class="text-4xl font-bold mb-6">About Me</h2>
-    <p class="max-w-3xl mx-auto text-lg text-gray-700">I am K Dheeran, a passionate developer with an interest in building impactful digital experiences. My expertise lies in modern web development, blending creativity with functionality.</p>
-  </section>
+        <!-- Education Section -->
+        <section id="education" class="py-20 px-6 bg-gray-800 animate-on-scroll">
+            <div class="container mx-auto text-center max-w-5xl">
+                <h2 class="text-4xl md:text-5xl font-bold mb-12 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-500">Education</h2>
+                <div class="flex flex-col space-y-8 relative">
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gray-600 h-full hidden md:block"></div>
+                    
+                    <div class="relative w-full md:w-1/2 md:self-start animate-on-scroll">
+                        <div class="bg-gray-700 p-6 rounded-xl shadow-2xl transform transition-transform duration-300 hover:scale-105">
+                            <h3 class="text-2xl font-semibold text-purple-400">B.Tech CSIT Student (2nd Year)</h3>
+                            <p class="text-gray-400">KL UNIVERSITY, 2024 - 2028</p>
+                        </div>
+                    </div>
 
-  <!-- Projects Section -->
-  <section id="projects" class="py-20 bg-gray-100 text-center">
-    <h2 class="text-4xl font-bold mb-10">Projects</h2>
-    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-      <div class="bg-white shadow-lg rounded-lg p-6 hover:scale-105 transition">
-        <h3 class="text-2xl font-semibold mb-4">Project 1</h3>
-        <p class="text-gray-600">Description of project 1 goes here.</p>
-      </div>
-      <div class="bg-white shadow-lg rounded-lg p-6 hover:scale-105 transition">
-        <h3 class="text-2xl font-semibold mb-4">Project 2</h3>
-        <p class="text-gray-600">Description of project 2 goes here.</p>
-      </div>
-      <div class="bg-white shadow-lg rounded-lg p-6 hover:scale-105 transition">
-        <h3 class="text-2xl font-semibold mb-4">Project 3</h3>
-        <p class="text-gray-600">Description of project 3 goes here.</p>
-      </div>
-    </div>
-  </section>
+                    <div class="relative w-full md:w-1/2 md:self-end animate-on-scroll">
+                        <div class="bg-gray-700 p-6 rounded-xl shadow-2xl transform transition-transform duration-300 hover:scale-105">
+                            <h3 class="text-2xl font-semibold text-purple-400">Intermediate Education (11th & 12th)</h3>
+                            <p class="text-purple-400">SSC</p>
+                            <p class="text-gray-400">Narayana Jr College</p>
+                        </div>
+                    </div>
+                    
+                    <div class="relative w-full md:w-1/2 md:self-start animate-on-scroll">
+                        <div class="bg-gray-700 p-6 rounded-xl shadow-2xl transform transition-transform duration-300 hover:scale-105">
+                            <h3 class="text-2xl font-semibold text-purple-400">High School (10th)</h3>
+                            <p class="text-purple-400">CBSE</p>
+                            <p class="text-gray-400">Sadu Vaswani International School</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="py-20 bg-white text-center">
-    <h2 class="text-4xl font-bold mb-6">Contact</h2>
-    <p class="text-lg text-gray-700 mb-4">Let's connect and create something amazing together!</p>
-    <a href="mailto:kdheeran@example.com" class="px-6 py-3 bg-purple-500 text-white rounded-full shadow hover:bg-purple-600 transition">Email Me</a>
-  </section>
+        <!-- Skills Section -->
+        <section id="skills" class="py-20 px-6 animate-on-scroll">
+            <div class="container mx-auto text-center max-w-5xl">
+                <h2 class="text-4xl md:text-5xl font-bold mb-12 text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-lime-500">Skills & Tools</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
+                    <div class="skill-card bg-gray-800 p-6 rounded-xl shadow-lg"><h3 class="text-xl font-semibold text-gray-200">C</h3></div>
+                    <div class="skill-card bg-gray-800 p-6 rounded-xl shadow-lg"><h3 class="text-xl font-semibold text-gray-200">HTML</h3></div>
+                    <div class="skill-card bg-gray-800 p-6 rounded-xl shadow-lg"><h3 class="text-xl font-semibold text-gray-200">CSS</h3></div>
+                    <div class="skill-card bg-gray-800 p-6 rounded-xl shadow-lg"><h3 class="text-xl font-semibold text-gray-200">Using AI Efficiently</h3></div>
+                    <div class="skill-card bg-gray-800 p-6 rounded-xl shadow-lg"><h3 class="text-xl font-semibold text-gray-200">Git</h3></div>
+                    <div class="skill-card bg-gray-800 p-6 rounded-xl shadow-lg"><h3 class="text-xl font-semibold text-gray-200">Python Basics</h3></div>
+                    <div class="skill-card bg-gray-800 p-6 rounded-xl shadow-lg"><h3 class="text-xl font-semibold text-gray-200">Java Basics</h3></div>
+                </div>
+            </div>
+        </section>
 
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-white py-6 text-center">
-    <p>&copy; 2025 K Dheeran. All Rights Reserved.</p>
-  </footer>
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 px-6 bg-gray-800 animate-on-scroll">
+            <div class="container mx-auto text-center max-w-3xl">
+                <h2 class="text-4xl md:text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-yellow-500">Get In Touch</h2>
+                <p class="text-lg md:text-xl text-gray-300 mb-12">
+                    Have a project in mind or just want to say hello? Feel free to reach out to me!
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center space-y-6 sm:space-y-0 sm:space-x-8">
+                    <!-- Email -->
+                    <a href="mailto:kdheeran123kittu@gmail.com?subject=Hello%20Dheeran&body=I%20wanted%20to%20connect%20with%20you." 
+   class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105">
+   Email Me
+</a>
+                    <!-- LinkedIn -->
+                    <a href="https://www.linkedin.com/in/k-dheeran-37684a315" target="_blank" 
+                       class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105">
+                        LinkedIn
+                    </a>
+                    <!-- GitHub -->
+                    <a href="https://github.com/2222dheeran?tab=repositories" target="_blank" 
+                       class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105">
+                        GitHub
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="bg-gray-900 py-6 text-center text-gray-500 text-sm">
+        <p>&copy; 2025 K Dheeran. All Rights Reserved.</p>
+    </footer>
 
-  <!-- JS for typing effect -->
-  <script>
-    const texts = ["Web Developer", "Designer", "Problem Solver"];
-    let count = 0;
-    let index = 0;
-    let currentText = '';
-    let letter = '';
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Typed text animation
+            const typedTextElement = document.getElementById('typed-text');
+            const phrases = [
+                "A curious mind, always building.",
+                "Crafting digital experiences.",
+                "Bringing ideas to life."
+            ];
+            let phraseIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
 
-    (function type() {
-      if (count === texts.length) {
-        count = 0;
-      }
-      currentText = texts[count];
-      letter = currentText.slice(0, ++index);
+            function typeWriter() {
+                const currentPhrase = phrases[phraseIndex];
+                let displayText = currentPhrase.substring(0, charIndex);
+                typedTextElement.textContent = displayText;
 
-      document.getElementById('typed-text').textContent = letter;
-      if (letter.length === currentText.length) {
-        count++;
-        index = 0;
-        setTimeout(type, 1000);
-      } else {
-        setTimeout(type, 150);
-      }
-    })();
+                if (!isDeleting && charIndex < currentPhrase.length) {
+                    charIndex++;
+                    setTimeout(typeWriter, 50);
+                } else if (isDeleting && charIndex > 0) {
+                    charIndex--;
+                    setTimeout(typeWriter, 25);
+                } else {
+                    isDeleting = !isDeleting;
+                    if (!isDeleting) {
+                        phraseIndex = (phraseIndex + 1) % phrases.length;
+                    }
+                    setTimeout(typeWriter, 1000);
+                }
+            }
+            typeWriter();
 
-    // Profile Picture Zoom Toggle
-    const profilePic = document.getElementById('profile-pic');
-    profilePic.addEventListener('click', () => {
-      profilePic.classList.toggle('zoomed');
-    });
-  </script>
+            // Scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
 
+            document.querySelectorAll('.animate-on-scroll').forEach(element => {
+                observer.observe(element);
+            });
+
+            // Profile picture zoom toggle
+            const profilePic = document.getElementById('profile-pic');
+            profilePic.addEventListener('click', () => {
+                profilePic.classList.toggle('zoomed');
+            });
+        });
+    </script>
 </body>
 </html>
